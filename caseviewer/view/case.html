@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8"></meta>
+        <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+        <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+        <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script>
+           $(function () {
+                 $('#caseTabDrop li:eq(1) a').tab('show');
+            });
+        </script></script>
+    </head>
+    <body>
+        <ul id="caseTab" class="nav nav-tabs">
+            <li class="dropdown">
+            <a href="#" id="caseTabDrop" class="dropdown-toggle" 
+                data-toggle="dropdown">所有病历<b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                {{range $k, $v := .Case}}
+                <li><a href="#{{$v.Info.Data.inp_no}}" tabindex="-1" data-toggle="tab">{{$k}}</a></li>
+                {{end}}
+            </ul>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            {{range $k, $v := .Case}}
+            <div class="tab-pane fade in" id="{{$v.Info.Data.inp_no}}">
+                {{if eq (len $v.Diagnosis) 0}}
+                <div class="alert alert-danger">诊断缺失</div>
+                {{end}}
+                {{if eq (len $v.Order) 0}}
+                <div class="alert alert-danger">医嘱缺失</div>
+                {{end}}
+                {{if eq (len $v.Vital) 0}}
+                <div class="alert alert-danger">体温单缺失</div>
+                {{end}}
+                {{if eq (len $v.Doc) 0}}
+                <div class="alert alert-danger">EMR缺失</div>
+                {{end}}
+                {{if eq (len $v.Lab) 0}}
+                <div class="alert alert-danger">无化验</div>
+                {{end}}
+                {{if eq (len $v.Exam) 0}}
+                <div class="alert alert-danger">无检查报告</div>
+                {{end}}
+                <div class="alert alert-info">基本信息</div> 
+                <dl class = "dl-horizontal">
+                    <dt>住院号</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "inp_no"}}
+                            {{$v.Info.Data.inp_no}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>就诊类型</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "visit_type"}}
+                            {{$v.Info.Data.visit_type}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>就诊状态</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "visit_status"}}
+                            {{$v.Info.Data.visit_status}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>姓名</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "name"}}
+                            {{$v.Info.Data.name}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>性别</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "gender"}}
+                            {{$v.Info.Data.gender}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>出生日期</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "birthday"}}
+                            {{$v.Info.Data.birthday}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>年龄</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "age"}}
+                            {{$v.Info.Data.age}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>身份证号码</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "id_code"}}
+                            {{$v.Info.Data.id_code}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>入院科室</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "dept_admission_to"}}
+                            {{$v.Info.Data.dept_admission_to}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>出院科室</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "dept_discharge_from"}}
+                            {{$v.Info.Data.dept_discharge_from}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>入院时间</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "admission_date_time"}}
+                            {{$v.Info.Data.admission_date_time}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>出院时间</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "discharge_date_time"}}
+                            {{$v.Info.Data.discharge_date_time}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>住院天数</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "inp_days"}}
+                            {{$v.Info.Data.inp_days}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>united_id</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "united_id"}}
+                            {{$v.Info.Data.united_id}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                    <dt>总费用</dt>
+                    <dd>
+                        {{if $v.Info.HasKey "total_costs"}}
+                        {{$v.Info.Data.total_costs}}
+                        {{else}}
+                            <span class="label label-danger">字段缺失</span>
+                        {{end}}
+                    </dd>
+                </dl>
+                <div class="alert alert-info">诊断</div> 
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>诊断类型</th>
+                            <th>诊断序号</th>
+                            <th>诊断内容</th>
+                            <th>归一后的诊断</th>
+                            <th>ICD编码</th>
+                        </tr>
+                    </thead>
+                    {{range $index, $diag := $v.Diagnosis}}
+                    <tr>
+                        <td>{{$diag.Get "type" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$diag.Get "no" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$diag.Get "diagnosis" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$diag.Get "diag_syn" "**undefined**"}}</td>
+                        <td>{{$diag.Get "diag_syn_code" "**undefined**"}}</td>
+                    </tr>
+                    {{end}}
+                </table>
+                <div class="alert alert-info">医嘱</div> 
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>医嘱内容</th>
+                            <th>下医嘱时间</th>
+                            <th>剂量</th>
+                            <th>剂量单位</th>
+                            <th>使用频率</th>
+                            <th>使用方法</th>
+                            <th>是否长嘱</th>
+                            <th>药品通用名</th>
+                        </tr>
+                    </thead>
+                    {{range $index, $order := $v.Order}}
+                    <tr>
+                        <td>{{$order.Get "text" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$order.Get "enter_date_time" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$order.Get "dosage" "**undefined**"}}</td>
+                        <td>{{$order.Get "dosage_units" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$order.Get "frequency" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$order.Get "administration" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                        <td>{{$order.Get "repeat_indicator" "**undefined**"}}</td>
+                        <td>{{$order.Get "drug_common_name" "<span class=\"label label-danger\">undefined</span>" | noescape}}</td>
+                    </tr>
+                    {{end}}
+                </table>
+                <div class="alert alert-info">化验</div>
+                    {{range $index, $lab := $v.Lab}}
+                    <div>
+                        <span class="label label-info">套餐名称: {{$lab.Get "item_set_name" "<span class=\"label label-danger\">undefined</span>" | noescape}}</span>
+                        <span class="label label-info">采样时间: {{$lab.Get "time" "<span class=\"label label-danger\">undefined</span>" | noescape}}</span>
+                        <span class="label label-info">申请时间: {{$lab.Get "req_time" "<span class=\"label label-danger\">undefined</span>" | noescape}}</span>
+                        <span class="label label-info">标本: {{$lab.Get "sample" "<span class=\"label label-danger\">undefined</span>" | noescape}}</span>
+                    </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>归一后的标本</th>
+                            <th>检查指标</th>
+                            <th>检查结果</th>
+                            <th>结果单位</th>
+                            <th>正常值</th>
+                            <th>是否异常</th>
+                            <th>异常标志</th>
+                            <th>定性结果</th>
+                        </tr>
+                    </thead>
+                {{range $lab.Data.detail}}
+                <tr {{if .is_abnormal}}class="warning"{{end}}>
+                    <td>{{.root_sample}}</td>
+                    <td>{{.item_name}}</td>
+                    <td>{{.value}}</td>
+                    <td>{{.unit}}</td>
+                    <td>{{.range}}</td>
+                    <td>{{.is_abnormal}}</td>
+                    <td>{{.abnormal_flag}}</td>
+                    <td>{{.qualitative_result}}</td>
+                </tr>
+                {{end}}
+                </table>
+                {{end}}
+            <div class="alert alert-info">检查</div>
+            <div>
+                {{range $v.Exam}}
+                <span>检查分类:  {{.Data.exam_class}}</span>
+                <span>名称: {{.Data.exam_name}}</span>
+                <span>检查时间:  {{.Data.time}}</span>
+                <span>检查所见:  {{.Data.description}}</span>
+                <span>检查结论:  {{.Data.result}}</span>
+                <span>检查方法:  {{.Data.method}}</span>
+                {{end}}
+            </div>
+            <div class="alert alert-info">体温单</div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>检查项目</th>
+                            <th>检查结果</th>
+                            <th>检查结果单位</th>
+                            <th>检查时间</th>
+                        </tr>
+                    </thead>
+                    {{range $v.Vital}}
+                    <tr>
+                        <td>{{.Data.item_name}}</td>
+                        <td>{{.Data.result}}</td>
+                        <td>{{.Data.unit}}</td>
+                        <td>{{.Data.time}}</td>
+                    </tr>
+                    {{end}}
+                </table>
+            </div>
+
+            <div class="alert alert-info">EMR</div>
+            {{range $v.Doc}}
+            <div class="alert alert-success">{{.Data.document_name}}  {{.Data.time}}</div>
+            <dl class = "dl-horizontal">
+            {{range .Data.content}}
+            <dt>{{.title}}</dt>
+            <dd>{{.text}}</dd>
+            {{end}}
+            {{end}}
+            </dl>
+        </div>
+            {{end}}
+        </div>
+    </body>
+</html>
+
